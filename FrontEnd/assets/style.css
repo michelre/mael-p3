@@ -84,6 +84,13 @@ h2{
 	font-size: 30px;
 	color: #1D6154
 }
+
+/** supprime le style du lien pour conserver le hover sur li**/
+nav a {
+  text-decoration: none;
+  color: inherit;
+}
+
 nav ul {
 	display: flex;
 	align-items: center;
@@ -185,4 +192,3 @@ footer nav ul {
 	justify-content: flex-end;
 	margin: 2em
 }
-
