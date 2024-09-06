@@ -39,9 +39,9 @@
       <a id="edit-link" href="#" style="display: none;">modifier</a>
 		<ul class="categories">
 		</ul>
-		<div class="gallery">
+		<ul class="gallery">
 
-		</div>
+		</ul>
 	</section>
 	<section id="contact">
 		<h2>Contact</h2>
@@ -66,6 +66,46 @@
 	</nav>
 </footer>
 
-<script src="assets/js/index.js" type="module"></script>
+<div class="edit-modal">
+	<h2>Galerie photo</h2>
+	<ul class="gallery-modal">
+  </ul>
+
+	<div>
+		<form id="add-work-form">
+			<div>
+				<input type="file" name="image" required>
+			</div>
+			<div>
+				<label>Titre</label>
+				<input type="text" name="title" placeholder="Titre" required>
+			</div>
+      <div>
+        <button type="submit">Ajouter une photo</button>
+      </div>
+		</form>
+	</div>
+</div>
+
+<script src="assets/js/index.js" type="module">
+  import { addWork } from './assets/js/api.js';
+
+  document.getElementById('add-photo-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    try {
+      const status = await addWork(formData);
+      if (status === 201) {
+        alert('Photo ajoutée avec succès!');
+        form.reset();
+      }
+    }
+  });
+
+
+</script>
 </body>
 </html>

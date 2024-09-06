@@ -18,9 +18,28 @@ const getToken = (email, password) => {
         body: JSON.stringify({email, password})
     })
     .then(response => response.json())
-    .then(data => {
-        localStorage.setItem('token', data.token)
-    })
 }
 
-export {getCategories, getWorks, getToken}
+const deleteWork = (id) => {
+    return fetch('http://localhost:5678/api/works/' + id, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    })
+    .then(response => response.status)
+}
+
+const addWork = (formData) => {
+  return fetch('http://localhost:5678/api/works', {
+      method: 'POST',
+      headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token')
+      },
+      body: formData
+  })
+  .then(response => response.status)
+}
+
+
+export {getCategories, getWorks, getToken, deleteWork, addWork}

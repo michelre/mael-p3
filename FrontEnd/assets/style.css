@@ -192,3 +192,37 @@ footer nav ul {
 	justify-content: flex-end;
 	margin: 2em
 }
+
+.edit-modal {
+	display: block;
+	position: absolute;
+	width: 500px;
+	height: 500px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: white;
+}
+
+.gallery-modal {
+	display: grid;
+    grid-template-columns: repeat(5, 1fr);
+	gap: 12px
+}
+
+.gallery-modal img{
+	width: 100%;
+	object-fit: cover;
+}
+
+.gallery-modal figure {
+	position: relative;
+}
+
+.gallery-modal button {
+	border: none;
+    background: none;
+    position: absolute;
+    top: 2px;
+    right: 0px;
+}
