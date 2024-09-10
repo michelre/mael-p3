@@ -41,9 +41,18 @@ const displayCategories = () => {
     allCategories.forEach(category => {
         const c = new Category(category)
         const element = c.render()
+        if(category.id === -1){
+            element.classList.add("active")
+        }
 
         element.addEventListener('click', (e) => {
-            const categoryId = parseInt(e.target.dataset.id)
+            e.preventDefault()
+            const categoryId = parseInt(e.currentTarget.dataset.id)
+            const prevActiveCategory = document.querySelector('.categories li.active')
+            if(prevActiveCategory){
+                prevActiveCategory.classList.remove('active')
+            }
+            e.currentTarget.classList.add("active")
             let filteredWorks = works
             if(categoryId !== -1) {
                 filteredWorks = works.filter(w => parseInt(w.categoryId) === categoryId)

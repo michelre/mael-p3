@@ -82,11 +82,16 @@
 			<button id="show-gallery"> précédent </button>
 			<form id="add-work-form">
 				<div>
-					<input type="file" name="image" required>
+					<label class="add-image" for="image">
+						<img src="./assets/icons/add-photo.svg" alt="Ajout photo placehoder"/>
+						<button type="button">+ Ajouter photo</button>
+						<p>jpg, png : 4mo max</p>
+					</label>
+					<input type="file" name="image" id="image" required>
 				</div>
 				<div>
-					<label>Titre</label>
-					<input type="text" name="title" placeholder="Titre" required>
+					<label for="title">Titre</label>
+					<input id="title" type="text" name="title" placeholder="Titre" required>
 				</div>
 				<div>
 					<label>Catégorie</label>
