@@ -9,6 +9,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
+	<script src="assets/js/index.js" type="module"></script>
 </head>
 <body>
 <header>
@@ -35,12 +37,13 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
-      <a id="edit-link" href="#" style="display: none;">modifier</a>
+    <div id="my-projects">
+		  <h2>Mes Projets</h2>
+      <a id="edit-link" href="#" style="display: none;"><i class="fa-regular fa-pen-to-square"></i>modifier</a>
+    </div>
 		<ul class="categories">
 		</ul>
 		<ul class="gallery">
-
 		</ul>
 	</section>
 	<section id="contact">
@@ -67,45 +70,36 @@
 </footer>
 
 <div class="edit-modal">
-	<h2>Galerie photo</h2>
-	<ul class="gallery-modal">
-  </ul>
+	<div class="modal-container">
+		<div>
+			<h2>Galerie photo</h2>
+			<ul class="gallery-modal"></ul>
 
-	<div>
-		<form id="add-work-form">
-			<div>
-				<input type="file" name="image" required>
-			</div>
-			<div>
-				<label>Titre</label>
-				<input type="text" name="title" placeholder="Titre" required>
-			</div>
-      <div>
-        <button type="submit">Ajouter une photo</button>
-      </div>
-		</form>
+			<button id="show-form">Ajouter une image</button>
+		</div>
+
+		<div>
+			<button id="show-gallery"> précédent </button>
+			<form id="add-work-form">
+				<div>
+					<input type="file" name="image" required>
+				</div>
+				<div>
+					<label>Titre</label>
+					<input type="text" name="title" placeholder="Titre" required>
+				</div>
+				<div>
+					<label>Catégorie</label>
+					<select name="select-categories"></select>
+				</div>
+		  <div>
+			<button type="submit">Ajouter une photo</button>
+		  </div>
+			</form>
+		</div>
 	</div>
+
 </div>
 
-<script src="assets/js/index.js" type="module">
-  import { addWork } from './assets/js/api.js';
-
-  document.getElementById('add-photo-form').addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const form = event.target;
-    const formData = new FormData(form);
-
-    try {
-      const status = await addWork(formData);
-      if (status === 201) {
-        alert('Photo ajoutée avec succès!');
-        form.reset();
-      }
-    }
-  });
-
-
-</script>
 </body>
 </html>

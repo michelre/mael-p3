@@ -1,9 +1,20 @@
 import { getCategories, getWorks, deleteWork, addWork } from "./api.js"
 import Category from "./components/category.js"
 import Work from "./components/work.js"
+import SelectCategories from "./components/select-categories.js"
 
 let works = []
 let categories = []
+
+const addWorkToGallery = (work, gallery, isModal) => {
+    const w = new Work(work, onDeleteWork)
+    const li = document.createElement('li')
+    const figure = isModal ? w.renderModal() : w.render()
+    li.appendChild(figure)
+    li.dataset['workId'] = work.id
+
+    gallery.appendChild(li)
+}
 
 const displayWorks = (works, isModal) => {
     let gallery = document.querySelector('.gallery')
@@ -12,19 +23,22 @@ const displayWorks = (works, isModal) => {
     }
     gallery.innerHTML = ''
     works.forEach(work => {
-        const w = new Work(work, onDeleteWork)
-        const li = document.createElement('li')
-        const figure = isModal ? w.renderModal() : w.render()
-        li.appendChild(figure)
-        li.dataset['workId'] = work.id
-
-        gallery.appendChild(li)
+        addWorkToGallery(work, gallery, isModal)
     })
+}
+
+const addWorkToGalleries = (work) => {
+    const gallery = document.querySelector('.gallery')
+    const galleryModal = document.querySelector('.gallery-modal')
+
+    addWorkToGallery(work, gallery, false) // Gallerie de la page d'accueil
+    addWorkToGallery(work, galleryModal, true) // Gallerie de la modal
 }
 
 const displayCategories = () => {
     const categoriesContainer = document.querySelector('.categories')
-    categories.forEach(category => {
+    const allCategories = [{id: -1, name: 'Tous'}].concat(categories)
+    allCategories.forEach(category => {
         const c = new Category(category)
         const element = c.render()
 
@@ -47,6 +61,21 @@ const displayAdminActions = () => {
         editLink.style.display = 'block'
     }
     displayWorks(works, true)
+    const selectCategories = new SelectCategories(categories)
+    selectCategories.render()
+    onAddWork()
+
+    const showGallery = document.querySelector('#show-gallery')
+    const showForm = document.querySelector('#show-form')
+    const modalContainer = document.querySelector('.modal-container')
+
+    showGallery.addEventListener('click', () => {
+        modalContainer.classList.remove('show-form')
+    })
+
+    showForm.addEventListener('click', () => {        
+        modalContainer.classList.add('show-form')
+    })
 }
 
 const init = async () => {
@@ -56,6 +85,7 @@ const init = async () => {
     displayCategories()
     displayWorks(works, false)
     displayAdminActions()
+    
 }
 
 const onDeleteWork = async (idWork) => {
@@ -66,39 +96,31 @@ const onDeleteWork = async (idWork) => {
     }
 }
 
-const onAddWork = async (event) => {
-    event.preventDefault();
+const onAddWork = () => {
 
-    const form = event.target;
-    const formData = new FormData(form);
+    const form = document.getElementById('add-work-form');
+    if (form) {
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault()
+            const formData = new FormData();
+            formData.append('image', event.target.image.files[0])
+            formData.append('title', event.target.title.value)
+            formData.append('category', event.target['select-categories'].value)
 
-    try {
-        const status = await addWork(formData);
-        if (status === 201) {
-            alert('Photo ajoutée avec succès!');
-            form.reset();
-            const updatedWorks = await getWorks();
-            displayWorks(updatedWorks, false);
-        }
-      } catch (error) {
-        alert('Erreur lors de l\'ajout de la photo');
-      }
+            try {
+                const work = await addWork(formData);        
+                alert('Photo ajoutée avec succès!');
+                form.reset();
+                addWorkToGalleries(work)
+              } catch (error) {
+                alert('Erreur lors de l\'ajout de la photo');
+              }
+        });
+    }
   };
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('add-photo-form');
-    if (form) {
-        form.addEventListener('submit', onAddWork);
-    }
-  });
 
-init()
 
-/**
-     * TODO:
-     * Finir le formulaire d'ajout
-     * Ajouter une fonction dans api.js pour faire l'appel API d'ajout d'image (FormData)
-     * Ajouter un évnèment sur l'envoi du formulaire
-     *  - Faire un appel à la fonction créée dans api.js
-     *  - Ajouter la nouvelle image dans la gallerie principale et de la modale
-     */
+document.addEventListener('DOMContentLoaded', () => {
+    init()
+})

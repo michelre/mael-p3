@@ -6,7 +6,6 @@ const getWorks = () => {
 const getCategories = () => {
     return fetch('http://localhost:5678/api/categories')
     .then(response => response.json())
-    .then(data => [{id: -1, name: 'Tous'}].concat(data))
 }
 
 const getToken = (email, password) => {
@@ -38,7 +37,7 @@ const addWork = (formData) => {
       },
       body: formData
   })
-  .then(response => response.status)
+  .then(response => response.json())
 }
 
 
