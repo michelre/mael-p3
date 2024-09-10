@@ -245,11 +245,24 @@ footer nav ul {
 
 /** boutons categories**/
 .categories {
-
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
+}
+.categories li {
+  width: 100px;
+  height: 37px;
+  text-align: center;
+  color: #1D6154;
+  border-radius: 60px;
+  border: 1px solid #1D6154;
+  padding: 5px;
 }
 
-.categories:hover {
+.categories li:hover {
   background-color: #1D6154;
+  color: white;
 }
 
 #my-projects {
@@ -263,6 +276,7 @@ footer nav ul {
   font-size: 14px;
   text-decoration: none;
   margin-left: 10px;
+  color: black;
 }
 
 /** page de login **/
