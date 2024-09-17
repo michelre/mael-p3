@@ -22,10 +22,11 @@ form.addEventListener('submit', async (e) => {
             localStorage.setItem('token', data.token)
             window.location.href = 'index.html';
             return
-        } 
+        }
         displayError('Veuillez vérifier vos identifiants')
-    } catch(e){    
+    } catch(e){
         displayError('Connexion API impossible')
     }
 
 })
+
